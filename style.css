@@ -1,0 +1,124 @@
+/* Dark mode base */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    min-height: 100vh;
+}
+
+/* Form styling */
+form {
+    margin-top: 60px;
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow: 0 0 10px #000;
+}
+
+input, select {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px;
+    width: 200px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #3b82f6;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #2563eb;
+}
+
+/* Dropdown background classes */
+.win {
+    background-color: #16a34a !important;
+    color: white;
+}
+.draw {
+    background-color: #6b7280 !important;
+    color: white;
+}
+.lost {
+    background-color: #dc2626 !important;
+    color: white;
+}
+.empty {
+    background-color: #000000 !important;
+    color: transparent;
+}
+
+/* Table styling */
+table {
+    margin: 20px auto;
+    width: 80%;
+    border-collapse: collapse;
+}
+td {
+    padding: 20px;
+    border: 1px solid #333;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+/* Link styling */
+a {
+    color: #60a5fa;
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* Heading styling */
+h2 {
+    margin-top: 30px;
+    font-weight: 500;
+}
+
+.highlight {
+    background-color: #fffacd;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.controls {
+    margin: 20px 0;
+}
+
+button {
+    padding: 8px 16px;
+    margin: 5px;
+    cursor: pointer;
+}

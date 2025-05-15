@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register New Account</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Register New User (Admin Only)</h2>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <form method="POST">
+        <input type="text" name="username" placeholder="New Username" required><br>
+        <input type="password" name="password" placeholder="New Password" required><br>
+        <button type="submit">Register</button>
+    </form>
+    <br>
+    <a href="/admin">← Back to Admin</a>
+</body>
+</html>

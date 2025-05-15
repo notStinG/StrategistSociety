@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Status Dropdown</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function updateColor() {
+            const status = document.getElementById("status").value;
+            document.body.className = status.toLowerCase();
+        }
+    </script>
+</head>
+<body class="{{ status|default('')|lower }}">
+    <h2>Welcome, {{ username }}</h2>
+    
+    <h3>Current Pairings</h3>
+    <ul>
+        {% for player1, player2 in pairings %}
+            {% if username == player1 or username == player2 %}
+            <li><strong>{{ player1 }} vs {{ player2 }} (Your match)</strong></li>
+            {% else %}
+            <li>{{ player1 }} vs {{ player2 }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    
+    <div class="standings">
+        <h3>Current Standings</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Points</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for player, points in standings %}
+                <tr {% if player == username %}class="highlight"{% endif %}>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ player }}</td>
+                    <td>{{ points }}</td>
+                    <td style="background-color: 
+                        {% if user_status.get(player) == 'Win' %}green
+                        {% elif user_status.get(player) == 'Draw' %}grey
+                        {% elif user_status.get(player) == 'Lost' %}red
+                        {% else %}transparent{% endif %};
+                        color: white; text-align: center;">
+                        {{ user_status.get(player, '') }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <form method="POST" action="/set_status">
+        <select name="status" id="status" onchange="updateColor()" required>
+            <option disabled selected>Select your result</option>
+            <option value="Win">Win</option>
+            <option value="Draw">Draw</option>
+            <option value="Lost">Lost</option>
+        </select><br>
+        <button type="submit">Submit</button>
+    </form>
+    <br>
+    <a href="/logout">Logout</a>
+</body>
+</html>

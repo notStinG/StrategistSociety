@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Admin Panel: Tournament Control</h2>
+    <a href="/admin/register"><button>Register New Account</button></a>
+    
+    <div class="controls">
+        <form action="/reset_all" method="post" style="display: inline;">
+            <button type="submit">Reset All Statuses</button>
+        </form>
+        <form action="/reset_points" method="post" style="display: inline;">
+            <button type="submit">Reset Tournament (Clear Points)</button>
+        </form>
+    </div>
+    
+    <h3>Current Pairings</h3>
+    <ul>
+        {% for player1, player2 in pairings %}
+            <li>{{ player1 }} vs {{ player2 }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h3>Player Status</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Points</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user['username'] }}</td>
+                <td>{{ user['points'] }}</td>
+                <td style="background-color:
+                    {% if user['status'] == 'Win' %}green
+                    {% elif user['status'] == 'Draw' %}grey
+                    {% elif user['status'] == 'Lost' %}red
+                    {% else %}transparent{% endif %};
+                    color: white; text-align: center;">
+                    {{ user['status'] if user['status'] else '' }}
+                </td>
+                <td>
+                    <form action="{{ url_for('reset_user', username=user['username']) }}" method="post">
+                        <button type="submit">Reset Status</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Change the form action to use the new admin_set_status route -->
+    <form method="POST" action="/admin/set_status">
+    <select name="status" id="status" required>
+        <option disabled selected>Select your result</option>
+        <option value="Win" {% if status == 'Win' %}selected{% endif %}>Win</option>
+        <option value="Draw" {% if status == 'Draw' %}selected{% endif %}>Draw</option>
+        <option value="Lost" {% if status == 'Lost' %}selected{% endif %}>Lost</option>
+    </select>
+    <button type="submit">Submit</button>
+    </form>
+    <h3>Players Who Haven't Reported This Round</h3>
+    <ul>
+        {% if pending_users %}
+            {% for username in pending_users %}
+                <li>{{ username }}</li>
+            {% endfor %}
+        {% else %}
+            <li>All players have submitted their status.</li>
+        {% endif %}
+    </ul>
+    <h3>Current Standings</h3>
+    <table>
+        <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player</th>
+              <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player, points in standings %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ player }}</td>
+                <td>{{ points }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    <!--To start next round (ONLY USE WHEN EVERYONE HAS SET STATUS)-->
+    <form action="/admin/next_round" method="post">
+        <button type="submit">Start Next Round</button>
+    </form>
+
+    <br>
+    <a href="/logout">Logout</a>
+</body>
+</html>
