@@ -36,18 +36,18 @@
                 </tr>
             </thead>
             <tbody>
-                {% for player, points in standings %}
+                {% for player, status, points in standings %}
                 <tr {% if player == username %}class="highlight"{% endif %}>
                     <td>{{ loop.index }}</td>
                     <td>{{ player }}</td>
                     <td>{{ points }}</td>
                     <td style="background-color: 
-                        {% if user_status.get(player) == 'Win' %}green
-                        {% elif user_status.get(player) == 'Draw' %}grey
-                        {% elif user_status.get(player) == 'Lost' %}red
+                        {% if status == 'Win' %}green
+                        {% elif status == 'Draw' %}grey
+                        {% elif status == 'Lost' %}red
                         {% else %}transparent{% endif %};
                         color: white; text-align: center;">
-                        {{ user_status.get(player, '') }}
+                        {{ status }}
                     </td>
                 </tr>
                 {% endfor %}
