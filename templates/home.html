@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Status Dropdown</title>
+    <title>Status Update</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script>
         function updateColor() {
@@ -12,58 +12,29 @@
 </head>
 <body class="{{ status|default('')|lower }}">
     <h2>Welcome, {{ username }}</h2>
-    
-    <h3>Current Pairings</h3>
-    <ul>
-        {% for player1, player2 in pairings %}
-            {% if username == player1 or username == player2 %}
-            <li><strong>{{ player1 }} vs {{ player2 }} (Your match)</strong></li>
-            {% else %}
-            <li>{{ player1 }} vs {{ player2 }}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-    
-    <div class="standings">
-        <h3>Current Standings</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Player</th>
-                    <th>Points</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for player, status, points in standings %}
-                <tr {% if player == username %}class="highlight"{% endif %}>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ player }}</td>
-                    <td>{{ points }}</td>
-                    <td style="background-color: 
-                        {% if status == 'Win' %}green
-                        {% elif status == 'Draw' %}grey
-                        {% elif status == 'Lost' %}red
-                        {% else %}transparent{% endif %};
-                        color: white; text-align: center;">
-                        {{ status }}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    
+
+    <p>Your current status: 
+        <span style="background-color: 
+            {% if status == 'Win' %}green
+            {% elif status == 'Draw' %}grey
+            {% elif status == 'Lost' %}red
+            {% else %}transparent{% endif %};
+            color: white; padding: 3px 6px; border-radius: 4px;">
+            {{ status if status else "Not set" }}
+        </span>
+    </p>
+
     <form method="POST" action="/set_status">
         <select name="status" id="status" onchange="updateColor()" required>
-            <option disabled selected>Select your result</option>
-            <option value="Win">Win</option>
-            <option value="Draw">Draw</option>
-            <option value="Lost">Lost</option>
-        </select><br>
+            <option disabled selected>Select your status</option>
+            <option value="Win" {% if status == 'Win' %}selected{% endif %}>Win</option>
+            <option value="Draw" {% if status == 'Draw' %}selected{% endif %}>Draw</option>
+            <option value="Lost" {% if status == 'Lost' %}selected{% endif %}>Lost</option>
+        </select>
         <button type="submit">Submit</button>
     </form>
+
+
     <br>
     <a href="/logout">Logout</a>
 </body>
